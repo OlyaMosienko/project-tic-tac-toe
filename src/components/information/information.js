@@ -1,18 +1,18 @@
+import { PLAYER, PLAYER_ACTION, PLAYER_NAME, STATUS } from '../../constants';
 import { InformationLayout } from './informationLayout';
 import PropTypes from 'prop-types';
 
-export const Information = ({ isDraw, isGameEnded, currentPlayer }) => {
-	return (
-		<InformationLayout
-			isDraw={isDraw}
-			isGameEnded={isGameEnded}
-			currentPlayer={currentPlayer}
-		/>
-	);
+export const Information = ({ status, currentPlayer }) => {
+	const playerAction = PLAYER_ACTION[status];
+	const playerName = PLAYER_NAME[currentPlayer];
+
+	const information =
+		status === STATUS.DRAW ? 'Ничья' : `${playerAction} ${playerName}`;
+
+	return <InformationLayout information={information} />;
 };
 
 Information.propTypes = {
-	isDraw: PropTypes.bool,
-	isGameEnded: PropTypes.bool,
-	currentPlayer: PropTypes.string,
+	status: PropTypes.oneOf([STATUS.DRAW, STATUS.TURN, STATUS.WIN]),
+	currentPlayer: PropTypes.oneOf([PLAYER.CROSS, PLAYER.NOUGHT, PLAYER.NOBODY]),
 };

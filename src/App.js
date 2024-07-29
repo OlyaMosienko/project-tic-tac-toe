@@ -1,25 +1,30 @@
 import { useState } from 'react';
+import { handleCellClick, handleRestart } from './handlers';
+import { STATUS, PLAYER } from './constants';
+import { createEmptyField } from './utils';
 import { AppLayout } from './AppLayout';
-import { WIN_PATTERNS } from './constants';
 
 export const App = () => {
-	const [currentPlayer, setCurrentPlayer] = useState('X');
-	const [isGameEnded, setIsGameEnded] = useState(false);
-	const [isDraw, setIsDraw] = useState(false);
-	const [field, setField] = useState(['', '', '', '', '', '', '', '', '']);
-	const winPatterns = WIN_PATTERNS;
+	const [status, setStatus] = useState(STATUS.TURN);
+	const [currentPlayer, setCurrentPlayer] = useState(PLAYER.CROSS);
+	const [field, setField] = useState(createEmptyField());
 
-	const props = {
+	const state = {
+		status,
+		setStatus,
 		currentPlayer,
 		setCurrentPlayer,
-		isGameEnded,
-		setIsGameEnded,
-		isDraw,
-		setIsDraw,
 		field,
 		setField,
-		winPatterns,
 	};
 
-	return <AppLayout {...props} />;
+	return (
+		<AppLayout
+			status={status}
+			currentPlayer={currentPlayer}
+			field={field}
+			handleCellClick={(cellIndex) => handleCellClick(state, cellIndex)}
+			handleRestart={() => handleRestart(state)}
+		/>
+	);
 };

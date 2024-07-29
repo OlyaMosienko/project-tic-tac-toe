@@ -1,56 +1,30 @@
 import styles from './App.module.css';
 import { Field, Information } from './components';
 import PropTypes from 'prop-types';
+import { STATUS, PLAYER } from './constants';
 
 export const AppLayout = ({
+	status,
 	currentPlayer,
-	setCurrentPlayer,
-	isGameEnded,
-	setIsGameEnded,
-	isDraw,
-	setIsDraw,
 	field,
-	setField,
-	winPatterns,
-}) => {
-	const resetGame = () => {
-		setCurrentPlayer('X');
-		setField(['', '', '', '', '', '', '', '', '']);
-		setIsDraw(false);
-		setIsGameEnded(false);
-	};
-
-	return (
-		<div className={styles.appLayout}>
-			<Information
-				isDraw={isDraw}
-				isGameEnded={isGameEnded}
-				currentPlayer={currentPlayer}
-			/>
-			<Field
-				field={field}
-				currentPlayer={currentPlayer}
-				setCurrentPlayer={setCurrentPlayer}
-				setIsDraw={setIsDraw}
-				isGameEnded={isGameEnded}
-				setIsGameEnded={setIsGameEnded}
-				winPatterns={winPatterns}
-			/>
-			<button className={styles.newGame} onClick={resetGame}>
-				Начать заново
-			</button>
-		</div>
-	);
-};
+	handleCellClick,
+	handleRestart,
+}) => (
+	<div className={styles.appLayout}>
+		<Information status={status} currentPlayer={currentPlayer} />
+		<Field field={field} handleCellClick={handleCellClick} />
+		<button className={styles.newGame} onClick={handleRestart}>
+			Начать заново
+		</button>
+	</div>
+);
 
 AppLayout.propTypes = {
-	currentPlayer: PropTypes.string,
-	setCurrentPlayer: PropTypes.func,
-	isGameEnded: PropTypes.bool,
-	setIsGameEnded: PropTypes.func,
-	isDraw: PropTypes.bool,
-	setIsDraw: PropTypes.func,
-	field: PropTypes.array,
-	setField: PropTypes.func,
-	winPatterns: PropTypes.array,
+	status: PropTypes.oneOf([STATUS.DRAW, STATUS.TURN, STATUS.WIN]),
+	currentPlayer: PropTypes.oneOf([PLAYER.CROSS, PLAYER.NOUGHT, PLAYER.NOBODY]),
+	field: PropTypes.arrayOf(
+		PropTypes.oneOf([PLAYER.CROSS, PLAYER.NOUGHT, PLAYER.NOBODY]),
+	),
+	handleCellClick: PropTypes.func,
+	handleRestart: PropTypes.func,
 };

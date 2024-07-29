@@ -1,58 +1,24 @@
+import { PLAYER, PLAYER_SIGN } from '../../constants';
 import styles from './field.module.css';
 import PropTypes from 'prop-types';
 
-export const FieldLayout = ({
-	field,
-	setIsDraw,
-	currentPlayer,
-	setCurrentPlayer,
-	isGameEnded,
-	setIsGameEnded,
-	winPatterns,
-}) => {
-	const checkWin = (player) => {
-		return winPatterns.some((pattern) => pattern.every((i) => field[i] === player));
-	};
-
-	const checkDraw = () => field.every((item) => item !== '');
-
-	const handleFieldChange = (i) => {
-		if (isGameEnded || field[i] !== '') return;
-
-		field[i] = currentPlayer;
-
-		if (checkWin(currentPlayer)) {
-			setIsGameEnded(true);
-		} else {
-			setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
-		}
-	};
-
-	return (
-		<div className={styles.fieldLayout}>
-			{field.map((item, i) => (
-				<button
-					className={styles.fieldItem}
-					key={i}
-					onClick={() => {
-						handleFieldChange(i);
-						setIsDraw(checkDraw());
-					}}
-					disabled={field[i] !== ''}
-				>
-					{field[i]}
-				</button>
-			))}
-		</div>
-	);
-};
+export const FieldLayout = ({ field, handleCellClick }) => (
+	<div className={styles.fieldLayout}>
+		{field.map((cellPlayer, i) => (
+			<button
+				className={styles.fieldItem}
+				key={i}
+				onClick={() => handleCellClick(i)}
+			>
+				{PLAYER_SIGN[cellPlayer]}
+			</button>
+		))}
+	</div>
+);
 
 FieldLayout.propTypes = {
-	field: PropTypes.array,
-	setIsDraw: PropTypes.func,
-	currentPlayer: PropTypes.string,
-	setCurrentPlayer: PropTypes.func,
-	isGameEnded: PropTypes.bool,
-	setIsGameEnded: PropTypes.func,
-	winPatterns: PropTypes.array,
+	field: PropTypes.arrayOf(
+		PropTypes.oneOf([PLAYER.CROSS, PLAYER.NOUGHT, PLAYER.NOBODY]),
+	),
+	handleCellClick: PropTypes.func,
 };
