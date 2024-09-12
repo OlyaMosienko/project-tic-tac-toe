@@ -1,14 +1,27 @@
-import { PLAYER } from '../../constants';
+import { useState, useEffect } from 'react';
+import { store } from '../../store';
 import { FieldLayout } from './fieldLayout';
-import PropTypes from 'prop-types';
+import { handleCellClick } from '../../handlers/handle-cell-click';
+import { PLAYER_SIGN } from '../../constants';
 
-export const Field = ({ field, handleCellClick }) => {
-	return <FieldLayout field={field} handleCellClick={handleCellClick} />;
-};
+export const Field = () => {
+	const [fieldState, setFieldState] = useState(store.getState());
 
-Field.propTypes = {
-	field: PropTypes.arrayOf(
-		PropTypes.oneOf([PLAYER.CROSS, PLAYER.NOUGHT, PLAYER.NOBODY]),
-	),
-	handleCellClick: PropTypes.func,
+	useEffect(() => {
+		const unsubscribe = store.subscribe(() => setFieldState(store.getState()));
+
+		return () => unsubscribe();
+	}, []);
+
+	const { field } = fieldState;
+
+	return (
+		<FieldLayout>
+			{field.map((cellPlayer, i) => (
+				<button key={i} onClick={() => handleCellClick(fieldState, i)}>
+					{PLAYER_SIGN[cellPlayer]}
+				</button>
+			))}
+		</FieldLayout>
+	);
 };

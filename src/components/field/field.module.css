@@ -2,7 +2,7 @@
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 }
-.fieldItem {
+.fieldLayout button {
 	font-size: 30px;
 	font-weight: 500;
 	height: 100px;
@@ -11,23 +11,23 @@
 	border: none;
 	cursor: pointer;
 }
-.fieldItem:nth-child(1),
-.fieldItem:nth-child(2),
-.fieldItem:nth-child(3),
-.fieldItem:nth-child(4),
-.fieldItem:nth-child(5),
-.fieldItem:nth-child(6) {
+.fieldLayout button:nth-child(1),
+.fieldLayout button:nth-child(2),
+.fieldLayout button:nth-child(3),
+.fieldLayout button:nth-child(4),
+.fieldLayout button:nth-child(5),
+.fieldLayout button:nth-child(6) {
 	border-bottom: 1px solid rgba(128, 128, 128, 0.5);
 }
-.fieldItem:nth-child(1),
-.fieldItem:nth-child(4),
-.fieldItem:nth-child(7),
-.fieldItem:nth-child(2),
-.fieldItem:nth-child(5),
-.fieldItem:nth-child(8) {
+.fieldLayout button:nth-child(1),
+.fieldLayout button:nth-child(4),
+.fieldLayout button:nth-child(7),
+.fieldLayout button:nth-child(2),
+.fieldLayout button:nth-child(5),
+.fieldLayout button:nth-child(8) {
 	border-right: 1px solid rgba(128, 128, 128, 0.5);
 }
-.fieldItem:disabled {
+.fieldLayout button:disabled {
 	color: inherit;
 	cursor: unset;
 }

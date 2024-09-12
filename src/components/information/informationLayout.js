@@ -1,10 +1,5 @@
 import styles from './information.module.css';
-import PropTypes from 'prop-types';
 
-export const InformationLayout = ({ information }) => (
-	<div className={styles.informationLayout}>{information}</div>
+export const InformationLayout = ({ children }) => (
+	<div className={styles.informationLayout}>{children}</div>
 );
-
-InformationLayout.propTypes = {
-	information: PropTypes.string,
-};
