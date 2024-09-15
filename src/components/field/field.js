@@ -1,24 +1,25 @@
-import { useState, useEffect } from 'react';
-import { store } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentPlayer, selectField, selectStatus } from '../../selectors';
 import { FieldLayout } from './fieldLayout';
-import { handleCellClick } from '../../handlers/handle-cell-click';
+import { handleCellClick } from '../../handlers';
 import { PLAYER_SIGN } from '../../constants';
 
 export const Field = () => {
-	const [fieldState, setFieldState] = useState(store.getState());
+	const field = useSelector(selectField);
+	const status = useSelector(selectStatus);
+	const currentPlayer = useSelector(selectCurrentPlayer);
 
-	useEffect(() => {
-		const unsubscribe = store.subscribe(() => setFieldState(store.getState()));
-
-		return () => unsubscribe();
-	}, []);
-
-	const { field } = fieldState;
+	const dispatch = useDispatch();
 
 	return (
 		<FieldLayout>
 			{field.map((cellPlayer, i) => (
-				<button key={i} onClick={() => handleCellClick(fieldState, i)}>
+				<button
+					key={i}
+					onClick={() =>
+						handleCellClick({ field, status, currentPlayer }, i, dispatch)
+					}
+				>
 					{PLAYER_SIGN[cellPlayer]}
 				</button>
 			))}
